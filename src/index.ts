@@ -1,4 +1,5 @@
 import "reflect-metadata";
+/*
 import {createConnection} from "typeorm";
 import {User} from "./entity/User";
 
@@ -19,3 +20,21 @@ createConnection().then(async connection => {
     console.log("Here you can setup and run express/koa/any other framework.");
 
 }).catch(error => console.log(error));
+*/
+
+import { GraphQLServer } from 'graphql-yoga'
+
+const typeDefs = `
+  type Query {
+    hello(name: String): String!
+  }
+`
+
+const resolvers = {
+  Query: {
+    hello: (_: any, { name }: any) => `Hello ${name || 'Worldssss'}`,
+  },
+}
+
+const server = new GraphQLServer({ typeDefs, resolvers })
+server.start(() => console.log('Server is running on localhost:4000'))
